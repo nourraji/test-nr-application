@@ -1,0 +1,66 @@
+entity AlpradoUsers {
+	dn String required
+    password String
+    sAMAccountName String required
+    displayName String
+    mail String
+    title String
+    company String
+    sn String
+    givenName String
+    department String
+    mobile String
+}
+
+
+entity UserProfile {
+	profileId Long
+    profileName String
+}
+
+entity AlpradoSites {
+	dnSite String required
+    completeDnSite String
+}
+
+entity AlpradoGroupes {
+	dnGroup String required
+    dnGroupeOriginal String required
+    dnGroupeParent String
+    libelle String
+	completeDnGroup String
+}
+
+entity UsersSite {
+	dnUser String required
+    dnSite String required
+}
+entity UsersGroupe {
+	dnUser String required
+    dnGroupe String required
+}
+
+relationship OneToOne {
+	UsersSite{dnUser} to AlpradoUsers{dn}
+}
+
+relationship ManyToOne {
+	AlpradoSites{dnSite} to UsersSite{dnSite}
+}
+
+relationship OneToOne {
+	UsersGroupe{dnUser} to AlpradoUsers{dn}
+}
+
+relationship ManyToOne {
+	AlpradoGroupes{dnGroupe} to UsersGroupe{dnGroupe}
+}
+relationship OneToMany {
+	AlpradoUsers{profileId} to UserProfile{profileId}
+
+}
+
+dto * with mapstruct
+
+service all with serviceImpl
+
